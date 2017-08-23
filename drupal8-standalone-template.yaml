@@ -36,22 +36,26 @@ objects:
     resources: {}
     runPolicy: Serial
     source:
+      type: Git
       git:
         uri: ssh://git@github.com/isubit/iastate8-project.git
+      sourceSecret:
+        name: sshsecret-drupal8os
       secrets:
       - secret:
           name: sshsecret-drupal8os
-      - destinationDir: /opt/app-root/src/db
-        secret:
+      - secret:
           name: secret-drupal8db
-      sourceSecret:
-        name: sshsecret-drupal8os
-      type: Git
+        destinationDir: /opt/app-root/src/db
     strategy:
       sourceStrategy:
         env:
         - name: SITE
           value: ${SITE}
+        - name: SITEPASSWORD
+          value: ${SITEPASSWORD}
+        - name: SITEHASHSALT
+          value: ${SITEHASHSALT}
         - name: DRUPALADMINPASSWORD
           value: ${ADMINPASSWORD}
         - name: DOCUMENTROOT
@@ -172,6 +176,17 @@ parameters:
   - name: ADMINPASSWORD
     displayName: Drupal Admin Password
     description: Password used for admin authentication
-    from: '[A-Z0-9]{12}'
+    from: '[a-zA-Z0-9]{12}'
     generate: expression
-        
+  - name: SITEPASSWORD
+    displayName: Drupal Database Password
+    description: Password used for DB, auto generated if left blank
+    from: '[a-zA-Z0-9]{16}'
+    generate: expression
+  - name: SITEHASHSALT
+    displayName: Drupal Hash Salt
+    description: >-
+      Salt used in drupal site config. Set here so forms, it stays the same after rebuilds. 
+      Auto generated if left blank
+    from: '[a-zA-Z0-9]{73}'
+    generate: expression
