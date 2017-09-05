@@ -39,6 +39,7 @@ objects:
       type: Git
       git:
         uri: ssh://git@github.com/isubit/iastate8-project.git
+        ref: ${IASTATE8PROJECTGITREF}
       sourceSecret:
         name: sshsecret-drupal8os
       secrets:
@@ -173,6 +174,11 @@ parameters:
       if database exists with this name.
     value:
     required: true 
+  - name: IASTATE8PROJECTGITREF
+    displayName: IAState 8 Git Branch
+    description: >-
+      Git branch, tag, or reference from which to build. Defaults to master
+    value: 'master'
   - name: ADMINPASSWORD
     displayName: Drupal Admin Password
     description: Password used for admin authentication
