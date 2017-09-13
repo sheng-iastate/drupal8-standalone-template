@@ -62,7 +62,7 @@ objects:
         - name: DOCUMENTROOT
           value: /web
         - name: BEHAT_PARAMS
-          value: ${BEHAT_PARAMS}
+          value: '{ "extensions" : { "Behat\\MinkExtension" : { "base_url" : "http://${SITE}.cloud.las.iastate.edu" }, "Drupal\\DrupalExtension" : { "drupal" : { "drupal_root": "/opt/app-root/src/web" } } } }'
         from:
           kind: ImageStreamTag
           name: drupal8-builder:latest
@@ -198,8 +198,3 @@ parameters:
       Auto generated if left blank
     from: '[a-zA-Z0-9]{73}'
     generate: expression
-  - name: BEHAT_PARAMS
-    displayName: BEHAT PARAMS Environment variable
-    description: >-
-      Environmental Varible set in the running pods
-    value: '{ "extensions" : { "Drupal\\DrupalExtension" : { "drupal" : { "drupal_root": "/opt/app-root/src/web" } } } }'
